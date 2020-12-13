@@ -23,4 +23,4 @@
 
 <b> Reference </b>
 
-Click this [_link_](https://digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-20-04)
+Click this [_link_](https://digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-20-04) for more details
