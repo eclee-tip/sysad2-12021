@@ -1,0 +1,56 @@
+---
+# tasks file for roles/centos-httpd
+- name: Installing httpd
+  become: yes
+  yum:
+    name: httpd
+    state: latest
+    update_cache: yes
+
+- name: Enabling services
+  become: yes
+  service:
+    name: httpd
+    enabled: yes
+
+- name: Allow access to port 80
+  become: yes
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+    state: enabled
+
+- name: Creating directory for website
+  become: yes
+  file:
+    path: /var/www/quiz32_domain
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Including index.html
+  become: yes
+  copy:
+    src: index.html
+    dest: /var/www/quiz32_domain
+
+- name: Copying configuration file
+  become: yes
+  copy:
+    src: /etc/httpd/conf
+    remote_src: yes
+    dest: /quiz32_domain.conf
+
+- name: Editing server name
+  become: yes
+  copy:
+    content: "<h3> Site </h3>"
+    dest: /var/www/quiz32_domain.conf
+
+- name: Reloading the server
+  become: yes
+  service:
+    name: httpd
+    state: restarted
