@@ -1,0 +1,12 @@
+---
+- name: Installing Elastic stack on ubuntu
+  hosts: ubuntu
+
+  roles:
+    - elk-ubuntu
+
+- name: Installing Elastic stack on centos
+  hosts: centos
+
+  roles:
+    - elk-centos

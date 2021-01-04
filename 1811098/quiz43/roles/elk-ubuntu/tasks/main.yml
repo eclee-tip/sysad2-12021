@@ -1,0 +1,38 @@
+---
+# tasks file for roles/elk-ubuntu
+- name: Adding gpg key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Adding the source
+  copy:
+    content: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+    dest: /etc/apt/sources.list.d/elastic-7.x.list
+
+- name: Updating ubuntu
+  become: yes
+  apt:
+    upgrade: 'yes'
+    update_cache: yes
+
+- name: Installing elastic search
+  apt:
+    name: elasticsearch
+    state: present
+
+- name: Installing kibana
+  apt:
+    name: kibana
+    state: present
+
+- name: Installing logstash
+  apt:
+    name: logstash
+    state: present
+
+- name: Installing filebeat
+  apt:
+    name: filebeat
+    state: present
+
