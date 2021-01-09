@@ -35,7 +35,7 @@
     remote_src: yes
 
 - name: Configure nagios
-  command: ./configure --with-command-group=naggroup
+  command: ./configure --with-command-group=nagiosxi
   args:
     chdir: /tmp/nagios-4.4.5
 
