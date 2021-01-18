@@ -1,0 +1,35 @@
+---
+# tasks file for roles/centos/install-nagios
+- name: Installing dependencies
+  yum:
+    name:
+      - perl
+      - gcc
+      - glibc
+      - glibc-common
+      - unzip
+      - gd
+      - gd-devel
+      - postfix
+    state: present
+
+- name: Add group in nagios
+  group:
+    name: "{{ naggroup }}"
+    state: present
+
+- name: Add user1 in nagios
+  user:
+    name: "{{ naguser1 }}"
+    group: "{{ naggroup }}"
+
+- name: Add user2 in nagios
+  user:
+    name: "{{ naguser2 }}"
+    group: "{{ naggroup }}"
+
+- name: Install nagios
+  unarchive:
+    src: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.5.tar.gz
+    dest: /tmp
+    remote_src: yes

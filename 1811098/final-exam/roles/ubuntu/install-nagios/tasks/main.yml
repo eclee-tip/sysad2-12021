@@ -1,0 +1,23 @@
+---
+# tasks file for roles/ubuntu/install-nagios
+- name: Installing dependencies
+  apt:
+    name:
+      - autoconf
+      - gcc
+      - libc6
+      - make
+      - wget
+      - unzip
+      - apache2
+      - php
+      - libapache2-mod-php
+      - libgd-dev
+    state: present
+
+- name: Installing nagios source code
+  unarchive:
+    src: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.5.tar.gz
+    dest: /tmp
+    remote_src: yes
+

@@ -1,0 +1,67 @@
+---
+# tasks file for roles/opensuse/install-nagios
+- name: Install httpd
+  zypper:
+    name: httpd
+    state: latest
+
+- name: Installing dependencies
+  zypper:
+    name:
+      - apache2
+      - gcc
+      - unzip
+      - glibc
+      - gd
+      - perl
+      - php7
+      - apache2-mod_php7
+      - make
+      - nagios
+    state: latest
+
+- name: Enable php7
+  command: "a2enmod php7"
+
+- name: Add group in nagios
+  group:
+    name: nagios
+    state: present
+
+- name: Add group2 in nagios
+  group:
+    name: nagcmd
+    state: present
+
+- name: Add group3 in nagios
+  group:
+    name: nagadmin
+    state: present
+
+- name: Create nagios user
+  user:
+    name: "{{ naguser1 }}"
+    comment: nagios user
+    group: nagadmin
+
+- name: Add wwwrun for external command
+  user:
+    name: wwwrun
+    group: nagadmin
+    append: yes
+
+- name: Creating download directory
+  file:
+    path: /download
+    state: directory
+
+- name: Download nagios from url
+  unarchive:
+    src: http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.2.1.tar.gz
+    dest: /download
+    remote_src: yes
+
+- name: Create virtual host
+  file:
+    path: /etc/httpd/conf.d
+    state: directory

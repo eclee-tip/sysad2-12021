@@ -1,0 +1,48 @@
+---
+- name: Finals Exam
+  hosts: all
+  
+  tasks:
+    - name: Include config.yaml
+      include_vars:
+        file: config.yaml
+
+- name: Cloning repository, and Installing and Configuring services in ubuntu
+  hosts: ubuntu
+
+  roles:
+    - ubuntu/prelim-clone
+    - ubuntu/install-vsftpd
+    - ubuntu/config-vsftpd
+    - ubuntu/install-nagios
+    - ubuntu/config-nagios
+
+- name: Cloning repository, and Installing and Configuring services in centos
+  hosts: centos
+
+  roles:
+    - centos/prelim-clone
+    - centos/install-vsftpd
+    - centos/config-vsftpd
+    - centos/install-nagios
+    - centos/config-nagios
+
+- name: Cloning repository, and Installing and Configuring services in opensuse
+  hosts: opensuse
+
+  roles:
+    - opensuse/prelim-clone
+    - opensuse/install-vsftpd
+    - opensuse/config-vsftpd
+    - opensuse/install-nagios
+    - opensuse/config-nagios
+
+- name: Change motd in all operating systems
+  hosts: all
+
+  tasks:
+    - name: Message of the day
+      lineinfile:
+        path: /etc/motd
+        line: "Ansible Managed by {{ username }}"
+        create: yes

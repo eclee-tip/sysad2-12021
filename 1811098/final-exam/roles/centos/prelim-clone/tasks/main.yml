@@ -1,0 +1,12 @@
+---
+# tasks file for roles/centos/prelim-clone
+- name: Installing git in centos
+  yum:
+    name: git
+    state: present
+
+- name: Cloning github repository in centos
+  git:
+    repo: "{{ prelim_clone }}"
+    dest: /etc/githubrepo
+    version: prelim-exam

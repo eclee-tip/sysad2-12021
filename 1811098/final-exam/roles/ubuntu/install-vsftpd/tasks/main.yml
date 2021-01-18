@@ -1,0 +1,13 @@
+---
+# tasks file for roles/ubuntu/install-vsftpd
+- name: Installing vsftpd
+  apt:
+    name: vsftpd
+    state: present
+    update_cache: yes
+
+- name: Starting vsftpd
+  service:
+    name: vsftpd
+    state: started
+    enabled: yes

@@ -1,0 +1,43 @@
+---
+# tasks file for roles/ubuntu/config-vsftpd
+- name: Stopping firewall services
+  service:
+    name: ufw
+    state: stopped
+    enabled: no
+
+- name: Creating ftp user
+  user:
+    name: "{{ ftp_user }}"
+    password: "{{ ftp_pass }}"
+    comment: "User of Eugene's FTP"
+
+- name: Denying ftp user
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "DenyUsers {{ ftp_user }}"
+  register: config_ssh
+
+- name: Creating ftp folder
+  file:
+    path: /home/ftpuser/ftp
+    state: directory
+    mode: '0555'
+
+- name: Creating files in ftp
+  file:
+    path: /home/ftpuser/ftp/file.conf
+    state: touch
+    mode: '0555'
+
+- name: Copying vsftpd.conf
+  copy:
+    src: vsftpd.conf
+    dest: /etc/vsftpd.conf
+  register: config_vsftpd
+
+- name: Restarting vsftpd
+  service:
+    name: vsftpd
+    state: restarted
+  when: config_vsftpd.changed

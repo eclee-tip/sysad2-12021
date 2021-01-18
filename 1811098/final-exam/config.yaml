@@ -1,0 +1,8 @@
+---
+prelim_clone: https://github.com/eclee-tip/sysad2-12021.git
+ftp_user: ftpuser
+ftp_pass: $5$h5Gz1WxU16$TnLnKSBtEVgfSuA6q9yskY5cimJn3KlWzlbR/.7kX16
+naguser1: nagios
+naguser2: apache2
+naggroup: nagiosxi
+username: eclee-tip

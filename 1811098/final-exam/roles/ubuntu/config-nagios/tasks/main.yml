@@ -1,0 +1,92 @@
+---
+# tasks file for roles/ubuntu/config-nagios
+- name: Configuring nagios
+  command: ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+  args:
+    chdir: /tmp/nagios-4.4.5
+
+- name: Make all
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: all
+
+- name: Make install-groups-users
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-groups-users
+
+- name: Add group in nagios
+  group:
+    name: "{{ naggroup }}"
+    state: present
+
+- name: Add user in nagios
+  user:
+    name: "{{ naguser1 }}"
+    group: "{{ naggroup }}"
+
+- name: Make install
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install
+
+- name: Make install-init
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-init
+
+- name: Make install-daemoninit
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-daemoninit
+
+- name: Make install-commandmode
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-commandmode
+
+- name: Make install-config
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-config
+
+- name: Make install-webconf
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-webconf
+
+- name: Enable apache rewrite
+  apache2_module:
+    state: present
+    name: rewrite
+
+- name: Enable apache cgi
+  apache2_module:
+    state: present
+    name: cgi
+
+- name: Install pip
+  apt:
+    name: python3-pip
+    state: latest
+
+- name: Install passlib
+  pip:
+    name: passlib
+
+- name: Create user in nagios
+  htpasswd:
+    path: /usr/local/nagios/etc/htpasswd.users
+    name: admin
+    password: password
+
+- name: Start nagios
+  service:
+    name: nagios
+    state: started
+    enabled: yes
+
+- name: Restart apache
+  service:
+    name: apache2
+    state: reloaded

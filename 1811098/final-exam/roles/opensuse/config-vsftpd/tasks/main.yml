@@ -1,0 +1,81 @@
+---
+# tasks file for roles/opensuse/config-vsftpd
+- name: Starting and enabling vsftpd service
+  service:
+    name: vsftpd
+    state: started
+    enabled: yes
+
+- name: Adding ftp-group
+  group:
+    name: ftp-group
+    state: present
+
+- name: Creating ftp folder
+  file:
+    path: /srv/ftp/
+    state: directory
+    mode: '0750'
+
+- name: Adding user to the group
+  user:
+    name: "{{ ftp_user }}"
+    password: "{{ ftp_pass }}"
+    shell: /srv/ftp/
+    comment: "Eugene's FTP"
+
+- name: Uncommenting write enable
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: "write_enable=NO"
+    line: "write_enable=YES"
+
+- name: Uncommenting ftpd banner
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: "#ftpd_banner"
+    line: "ftpd_banner=Welcome to Eugene's FTP server"
+
+- name: Uncommenting ls recurese enable
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: "#ls_recurse_enable"
+    line: "ls_recurse_enable=YES"
+
+- name: Uncommenting local enable
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: "#local_enable"
+    line: "local_enable=YES"
+
+- name: Disable anynomous access
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: "anonymous_enable"
+    line: "anonymous_enable=NO"
+
+- name: Uncommenting ascii upload
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: "#ascii_upload_enable"
+    line: "ascii_upload_enable=YES"
+
+- name: Uncommenting ascii download
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: "#ascii_download_enable"
+    line: "ascii_download_enable=YES"
+
+- name: Adding use localtime
+  lineinfile:
+    path: /etc/vsftpd.conf
+    line: "use_localtime=YES"
+  register: localtime
+
+- name: Restarting vsftpd
+  service:
+    name: vsftpd
+    state: restarted
+  when: localtime.changed
+
+

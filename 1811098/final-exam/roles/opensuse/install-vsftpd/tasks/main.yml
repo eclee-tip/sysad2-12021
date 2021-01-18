@@ -1,0 +1,6 @@
+---
+# tasks file for roles/opensuse/install-vsftpd
+- name: Installing vsftpd
+  zypper:
+    name: vsftpd
+    state: present

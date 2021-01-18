@@ -1,0 +1,59 @@
+---
+# tasks file for roles/centos/config-nagios
+- name: Configure nagios
+  command: ./configure --with-command-group=nagiosxi
+  args:
+    chdir: /tmp/nagios-4.4.5
+
+- name: Make clean
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: clean
+
+- name: Make all
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: all
+
+- name: Make install-init
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-init
+
+- name: Make install-daemoninit
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-daemoninit
+
+- name: Make install-commandmode
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-commandmode
+
+- name: Make install-webconf
+  become: yes
+  make:
+    chdir: /tmp/nagios-4.4.5
+    target: install-webconf
+
+- name: Install pip prerequisite
+  yum:
+    name: python3-pip
+    state: latest
+    update_cache: yes
+
+- name: Install passlib
+  pip:
+    name: passlib
+    state: latest
+
+- name: Create user in nagios
+  htpasswd:
+    path: /usr/local/nagios/etc/htpasswd.users
+    name: admin
+    password: password
+
+- name: Restart httpd
+  service:
+    name: httpd
+    state: reloaded
