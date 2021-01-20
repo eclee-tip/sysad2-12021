@@ -71,8 +71,9 @@
     state: latest
 
 - name: Install passlib
-  pip:
-    name: passlib
+  apt:
+    name: python-passlib
+    state: latest
 
 - name: Create user in nagios
   htpasswd:

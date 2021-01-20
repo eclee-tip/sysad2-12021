@@ -92,7 +92,7 @@
 │   │       │   └── test.yml
 │   │       └── vars
 │   │           └── main.yml
-│   ├── opensuse
+│   ├── debian
 │   │   ├── config-nagios
 │   │   │   ├── README.md
 │   │   │   ├── defaults
@@ -178,7 +178,7 @@
 │   │       │   └── test.yml
 │   │       └── vars
 │   │           └── main.yml
-│   └── ubuntu
+│   └── opensuse
 │       ├── config-nagios
 │       │   ├── README.md
 │       │   ├── defaults

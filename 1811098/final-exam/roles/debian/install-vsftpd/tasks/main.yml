@@ -1,8 +1,10 @@
 ---
 # tasks file for roles/ubuntu/install-vsftpd
-- name: Installing vsftpd
+- name: Installing vsftpd and services
   apt:
-    name: vsftpd
+    name:
+      - vsftpd
+      - ufw
     state: present
     update_cache: yes
 

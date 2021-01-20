@@ -1,11 +1,11 @@
 ---
 # tasks file for roles/ubuntu/prelim-clone
-- name: Installing git in ubuntu
+- name: Installing git in debian
   apt:
     name: git
     state: present
 
-- name: Cloning github repository in ubuntu
+- name: Cloning github repository in debian
   git:
     repo: "{{ prelim_clone }}"
     dest: /etc/githubrepo

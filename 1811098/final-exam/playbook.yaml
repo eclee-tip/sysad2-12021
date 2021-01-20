@@ -8,14 +8,14 @@
         file: config.yaml
 
 - name: Cloning repository, and Installing and Configuring services in ubuntu
-  hosts: ubuntu
+  hosts: debian
 
   roles:
-    - ubuntu/prelim-clone
-    - ubuntu/install-vsftpd
-    - ubuntu/config-vsftpd
-    - ubuntu/install-nagios
-    - ubuntu/config-nagios
+    - debian/prelim-clone
+    - debian/install-vsftpd
+    - debian/config-vsftpd
+    - debian/install-nagios
+    - debian/config-nagios
 
 - name: Cloning repository, and Installing and Configuring services in centos
   hosts: centos
